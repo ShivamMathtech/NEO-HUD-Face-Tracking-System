@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEO-HUD • Face Tracking System</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='15' fill='%2300121d' stroke='%2300efab' stroke-width='3'/%3E%3C/svg%3E"><link rel="stylesheet" href="styles.css"></head>
+<body>
+
+<header>
+  <div class="brand"><div class="brand-reticle"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 1v5m0 12v5M1 12h5m12 0h5"/></svg></div><div><h1>NEO-<span>HUD</span></h1><p>FACE TRACKING SYSTEM</p></div></div>
+  <nav aria-label="Main controls"><button id="trackTab" class="active"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 1v5m0 12v5M1 12h5m12 0h5"/></svg>TRACK</button><button id="recordBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2"/><path d="m15 10 7-4v12l-7-4z"/></svg><span>RECORD</span></button><button id="settingsBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 2 4 0 1 3 3 1 3 0 1 4-2 2 0 3 1 2-3 3-3-1-3 1-2 2-4-2 0-3-2-2-2-1 1-4 3-1 2-2z"/><circle cx="12" cy="12" r="3"/></svg>SETTINGS</button></nav>
+  <div class="window-buttons"><button id="compactBtn" title="Toggle compact header" aria-label="Toggle compact header">−</button><button id="fullscreenBtn" title="Full screen" aria-label="Full screen">□</button><button id="stopBtn" title="Stop source" aria-label="Stop source">×</button></div>
+</header>
+<main>
+  <aside class="left-column">
+    <section class="panel source-panel"><h2><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 2 4 0 1 3 3 1 3 0 1 4-2 2 0 3 1 2-3 3-3-1-3 1-2 2-4-2 0-3-2-2-2-1 1-4 3-1 2-2z"/><circle cx="12" cy="12" r="3"/></svg>CAMERA &amp; SOURCE</h2><div class="panel-body">
+      <label class="select-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h4l2-3h6l2 3h4v14H3z"/><circle cx="12" cy="13" r="4"/></svg><select id="cameraSelect" aria-label="Camera"><option value="">Webcam (0)</option></select></label>
+      <button id="cameraBtn" class="primary wide"><span class="play-icon">▶</span><span>Start Camera</span></button>
+      <button id="openBtn" class="wide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20V5h8l2 3h10v12zM2 20l4-10h16l-4 10z"/></svg>Open Video File</button><input id="fileInput" type="file" accept="video/*,.mp4,.webm,.mov,.m4v,.ogv" hidden>
+    </div></section>
+    <section class="panel tracking-panel"><h2><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 1v5m0 12v5M1 12h5m12 0h5"/></svg>TRACKING</h2><div class="panel-body">
+      <label class="select-wrap"><svg class="green" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 1v5m0 12v5M1 12h5m12 0h5"/></svg><select id="mode" aria-label="Tracking mode"><option value="single">Single Face (Auto Lock)</option><option value="multi">Multiple Faces</option></select></label>
+      <label class="switch-row">Manual Selection<input id="manual" type="checkbox" role="switch"><span class="switch"></span></label>
+      <button id="acquireBtn" class="primary wide"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 1v5m0 12v5M1 12h5m12 0h5"/></svg>Acquire &amp; Track</button>
+      <button id="releaseBtn" class="wide"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="12" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0"/><path d="M12 14v4"/></svg>Release Lock</button>
+    </div></section>
+    <section class="panel settings-panel"><h2><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 2 4 0 1 3 3 1 3 0 1 4-2 2 0 3 1 2-3 3-3-1-3 1-2 2-4-2 0-3-2-2-2-1 1-4 3-1 2-2z"/><circle cx="12" cy="12" r="3"/></svg>SETTINGS</h2><div class="panel-body">
+      <label class="slider-label" for="smoothing">Smoothing Strength<output id="smoothingValue">0.7</output></label><input id="smoothing" type="range" min="0" max="0.95" step="0.05" value="0.7">
+      <label class="slider-label" for="confidence">Detection Confidence<output id="confidenceValue">0.5</output></label><input id="confidence" type="range" min="0.1" max="0.95" step="0.05" value="0.5">
+      <label for="resolution">Processing Resolution</label><select id="resolution"><option value="480">480 × 270</option><option value="640" selected>640 × 360</option><option value="960">960 × 540</option><option value="1280">1280 × 720</option></select>
+    </div></section>
+  </aside>
+  <section class="panel viewport-panel" aria-label="Video tracking viewport"><div class="viewport" id="viewport">
+    <video id="video" playsinline muted hidden></video><canvas id="display" aria-label="Live video with face tracking overlay"></canvas>
+    <div class="view-stat"><div>FPS: <span id="viewFps">—</span></div><div>Latency: <span id="viewLatency">—</span></div></div><div id="dimensions" class="dimensions">NO SOURCE</div>
+    <div id="emptyState" class="empty-state"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 1v5m0 12v5M1 12h5m12 0h5"/></svg><h3>VISION SYSTEM READY</h3><p>Start your camera or open a video file</p><small id="modelHint">Initializing face detection model…</small></div>
+    <div id="notice" role="status" hidden></div>
+    <div id="videoControls" class="video-controls" hidden><button id="playPause" aria-label="Pause video">Ⅱ</button><input id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek video"><span id="videoTime">0:00 / 0:00</span><select id="speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select><label><input id="loop" type="checkbox">Loop</label></div>
+  </div></section>
+  <aside class="right-column">
+    <section class="panel info-panel"><h2><svg class="cyan" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3zM2 8V2h5m10 0h5v6"/></svg>TRACKING INFO</h2><dl>
+      <div><dt>Tracking State</dt><dd id="trackingState">● STANDBY</dd></div><div><dt>Target ID</dt><dd id="targetId">—</dd></div><div><dt>Confidence</dt><dd id="targetConfidence">—</dd></div><div><dt>Face Position (px)</dt><dd id="facePosition">—</dd></div><div><dt>Center Offset (px)</dt><dd id="centerOffset">—</dd></div><div><dt>Direction</dt><dd id="direction" class="green">—</dd></div><div><dt>FPS</dt><dd id="infoFps">—</dd></div><div><dt>Processing Time</dt><dd id="processingTime">—</dd></div>
+    </dl></section>
+    <section class="panel radar-panel"><h2 class="cyan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 2 4 0 1 3 3 1 3 0 1 4-2 2 0 3 1 2-3 3-3-1-3 1-2 2-4-2 0-3-2-2-2-1 1-4 3-1 2-2z"/><circle cx="12" cy="12" r="3"/></svg>RADAR VIEW</h2><canvas id="radar" aria-label="Normalized face position radar"></canvas></section>
+    <section class="panel trail-panel"><h2><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 2 4 0 1 3 3 1 3 0 1 4-2 2 0 3 1 2-3 3-3-1-3 1-2 2-4-2 0-3-2-2-2-1 1-4 3-1 2-2z"/><circle cx="12" cy="12" r="3"/></svg>MOTION TRAIL</h2><canvas id="trail" aria-label="Face center trajectory"></canvas></section>
+  </aside>
+</main>
+<footer><span><svg class="green" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h4l2-3h6l2 3h4v14H3z"/><circle cx="12" cy="13" r="4"/></svg>Camera: <b id="cameraStatus">Disconnected</b></span><span><svg class="green" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="15" rx="2"/><path d="M12 18v4m-5 0h10"/><circle cx="12" cy="10" r="2"/></svg>Model: <b id="modelStatus">Loading…</b></span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="14"/><path d="M9 1v4m6-4v4M9 19v4m6-4v4M1 9h4m-4 6h4m14-6h4m-4 6h4"/></svg>CPU Mode</span><span><i id="recordDot"></i>Recording: <b id="recordStatus">OFF</b></span><span class="footer-metrics"><span id="footerFps">— FPS</span><em></em><span id="footerMs">— ms</span><strong class="signal">▂▄▆█</strong></span></footer>
+<dialog id="settingsDialog"><form method="dialog"><h2><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 2 4 0 1 3 3 1 3 0 1 4-2 2 0 3 1 2-3 3-3-1-3 1-2 2-4-2 0-3-2-2-2-1 1-4 3-1 2-2z"/><circle cx="12" cy="12" r="3"/></svg>DISPLAY &amp; PERFORMANCE<button class="dialog-close" aria-label="Close settings">×</button></h2></form><div class="dialog-body">
+<label class="switch-row">Mirror webcam<input id="mirror" type="checkbox" checked><span class="switch"></span></label>
+<label class="switch-row">Show face trajectory<input id="showTrail" type="checkbox"><span class="switch"></span></label>
+<label class="switch-row">Fill viewport (crop edges)<input id="fill" type="checkbox"><span class="switch"></span></label>
+<label class="slider-label" for="maxFps">Maximum inference FPS<output id="maxFpsValue">30</output></label><input id="maxFps" type="range" min="5" max="60" step="5" value="30">
+<p>Processing sizes assume 16:9; the actual source aspect ratio is preserved. Tracking FPS and latency are measured live.</p><p>Manual selection: enable the switch, then click a detected face. IDs track position during this session; they do not identify a person.</p><button id="snapshotBtn" class="wide">Save HUD Snapshot</button><button id="exportBtn" class="wide">Export Tracking Data (CSV)</button><small>Record saves the video and HUD overlay as a silent WebM file. Large recordings use browser memory; save in short segments.</small>
+</div></dialog>
+<script type="module" src="app.mjs"></script>
+</body></html>

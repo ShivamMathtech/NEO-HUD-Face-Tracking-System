@@ -1,0 +1,17 @@
+NEO-HUD FACE TRACKING SYSTEM
+
+1. Extract the entire ZIP.
+2. Install Python 3.10+ if needed (enable Add Python to PATH).
+3. Double-click START_WINDOWS.bat.
+4. Open http://localhost:8765 in Chrome or Edge.
+5. Wait for Model: Loaded, then choose Start Camera or Open Video File.
+
+No pip install, npm install, API key or GPU is required.
+The pretrained model and runtime are included; the app works offline.
+
+Manual command: python server.py
+Alternate port: python server.py --port 8766
+Linux/macOS: python3 server.py
+
+Keep the terminal open while using the dashboard.
+See README.md for controls, video formats, recording and troubleshooting.
